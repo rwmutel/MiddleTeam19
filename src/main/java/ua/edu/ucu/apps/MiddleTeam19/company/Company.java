@@ -1,5 +1,6 @@
 package ua.edu.ucu.apps.MiddleTeam19.company;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.util.List;
 @ToString
 @Table
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Company {
     @Id
     @GeneratedValue
