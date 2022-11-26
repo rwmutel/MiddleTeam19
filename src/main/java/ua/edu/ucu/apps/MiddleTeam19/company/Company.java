@@ -25,8 +25,7 @@ public class Company {
     private String employees;
     private String address;
 //    public static Company getCompanyFromDomain(String domain) {
-//      this method should use separate class DataGetter,
+//      this method is a static factory and should use separate class DataGetter,
 //      which uses different DataParser's to acquire the data
 //    }
-
 }

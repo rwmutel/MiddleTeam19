@@ -13,7 +13,8 @@ public class CompanyController {
     }
     @GetMapping
     public Company getCompanyData(String domain) {
-        // to-do
+        // to-do:
+        // return Company.getCompanyFromDomain(domain);
         return new Company();
     }
 }
