@@ -28,6 +28,13 @@ public class ParsersWrapper implements DataParser {
 
     @Override
     public Optional<String> getFacebookURL() {
+        Optional<String> facebookURL;
+        for (DataParser parser: parsers) {
+            facebookURL = parser.getFacebookURL();
+            if (facebookURL.isPresent()) {
+                return facebookURL;
+            }
+        }
         return Optional.empty();
     }
 

@@ -2,6 +2,7 @@ package ua.edu.ucu.apps.MiddleTeam19.dataParsers;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,6 +35,15 @@ public class HomepageParser implements DataParser {
 
     @Override
     public Optional<String> getFacebookURL() {
+        if (connected) {
+            Elements el = page.getElementsByAttributeValueMatching(
+                    "href",
+                    "https:\\/\\/www\\.facebook\\.com.*\\/"
+            );
+            if (el.size() > 0){
+                return Optional.of(el.last().attr("href"));
+            }
+        }
         return Optional.empty();
     }
 

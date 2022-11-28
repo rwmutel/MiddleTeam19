@@ -33,8 +33,9 @@ public class Company {
 //      which uses different DataParser's to acquire the data
         ParsersWrapper wp = new ParsersWrapper(domain);
         Company parsed = new Company();
-        wp.getName().ifPresent(parsed::setName);
         parsed.setDomain(domain);
+        wp.getName().ifPresent(parsed::setName);
+        wp.getFacebookURL().ifPresent(parsed::setFacebookURL);
         return parsed;
     }
 }
