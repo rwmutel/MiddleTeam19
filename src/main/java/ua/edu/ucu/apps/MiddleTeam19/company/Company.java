@@ -11,12 +11,12 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-@Table
+@Table(name = "companies")
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Company {
-    @Id
     @GeneratedValue
+    @Id
     private int id;
     private String domain;
     private String name;
