@@ -1,4 +1,4 @@
-package ua.edu.ucu.apps.MiddleTeam19.dataGetter;
+package ua.edu.ucu.apps.MiddleTeam19.dataParsers;
 
 import java.util.List;
 import java.util.Optional;

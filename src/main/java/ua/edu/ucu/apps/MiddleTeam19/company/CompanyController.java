@@ -15,8 +15,7 @@ public class CompanyController {
         this.companyService = companyService;
     }
     @GetMapping
-    public String getCompanyData(@RequestParam String name) {
-        return name;
-//        return Company.getCompanyFromDomain(domain);
+    public Company getCompanyData(@RequestParam String name) {
+        return Company.getCompanyFromDomain(name);
     }
 }

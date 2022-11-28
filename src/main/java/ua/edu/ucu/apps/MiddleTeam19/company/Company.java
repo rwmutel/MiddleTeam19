@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ua.edu.ucu.apps.MiddleTeam19.dataParsers.ParsersWrapper;
 
 import java.util.List;
 
@@ -26,8 +27,13 @@ public class Company {
     private List<String> companyIcons;
     private String employees;
     private String address;
-//    public static Company getCompanyFromDomain(String domain) {
+    public static Company getCompanyFromDomain(String domain) {
 //      this method is a static factory and should use separate class DataGetter,
 //      which uses different DataParser's to acquire the data
-//    }
+        ParsersWrapper wp = new ParsersWrapper(domain);
+        Company parsed = new Company();
+        parsed.setName(String.valueOf(wp.getName()));
+        parsed.setDomain(domain);
+        return parsed;
+    }
 }
