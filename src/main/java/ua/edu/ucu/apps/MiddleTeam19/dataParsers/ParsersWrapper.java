@@ -8,6 +8,7 @@ public class ParsersWrapper implements DataParser {
     List<DataParser> parsers = new ArrayList<>();
     public ParsersWrapper(String domain) {
         parsers.add(new HomepageParser(domain));
+        parsers.add(new BrandfetchParser(domain));
     }
     @Override
     public Optional<String> getName() {
