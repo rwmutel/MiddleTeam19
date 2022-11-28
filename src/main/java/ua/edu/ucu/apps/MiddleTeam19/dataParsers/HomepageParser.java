@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class HomepageParser implements DataParser {
+    private String domain;
     private Document page;
     private boolean connected;
     public HomepageParser(String domain) {
         try {
+            this.domain = domain;
             page = Jsoup.connect(domain).get();
             connected = true;
         }
@@ -54,6 +56,17 @@ public class HomepageParser implements DataParser {
 
     @Override
     public Optional<List<String>> getCompanyIcons() {
+        if (connected) {
+            Elements el = page.head().getElementsByAttributeValueMatching("href", ".*favicon\\.ico");
+            if (el.size() > 0) {
+                String favicon = el.attr("href");
+                if (!favicon.startsWith("https://")) {
+                    favicon = domain + favicon;
+                    favicon = favicon.replace("//favicon", "/favicon");
+                }
+                return Optional.of(List.of(favicon));
+            }
+        }
         return Optional.empty();
     }
 

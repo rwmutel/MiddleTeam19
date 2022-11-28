@@ -45,6 +45,14 @@ public class ParsersWrapper implements DataParser {
 
     @Override
     public Optional<List<String>> getCompanyIcons() {
+        List<String> icons = new ArrayList<>();
+        for (DataParser parser: parsers) {
+            Optional<List<String>> newIcons = parser.getCompanyIcons();
+            newIcons.ifPresent(icons::addAll);
+        }
+        if (icons.size() > 0) {
+            return Optional.of(icons);
+        }
         return Optional.empty();
     }
 
