@@ -23,6 +23,7 @@ public class HomepageParser implements DataParser {
         }
         catch (IOException e) {
             connected = false;
+            System.out.println(e.getMessage());
         }
     }
     @Override
