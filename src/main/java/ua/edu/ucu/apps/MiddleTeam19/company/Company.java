@@ -8,6 +8,7 @@ import lombok.ToString;
 import ua.edu.ucu.apps.MiddleTeam19.dataParsers.ParsersWrapper;
 
 import java.util.List;
+import java.util.Optional;
 
 @Setter
 @Getter
@@ -32,7 +33,7 @@ public class Company {
 //      which uses different DataParser's to acquire the data
         ParsersWrapper wp = new ParsersWrapper(domain);
         Company parsed = new Company();
-        parsed.setName(wp.getName().get());
+        wp.getName().ifPresent(parsed::setName);
         parsed.setDomain(domain);
         return parsed;
     }

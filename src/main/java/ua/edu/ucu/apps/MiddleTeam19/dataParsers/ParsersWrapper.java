@@ -6,9 +6,6 @@ import java.util.Optional;
 
 public class ParsersWrapper implements DataParser {
     List<DataParser> parsers = new ArrayList<>();
-    // here we have somehow to implement chain of responsibility without
-    // reflections and iterating over attributes of Company class.
-    // When we failed to get particular data with one type of parser, we have to proceed with another
     public ParsersWrapper(String domain) {
         parsers.add(new HomepageParser(domain));
     }

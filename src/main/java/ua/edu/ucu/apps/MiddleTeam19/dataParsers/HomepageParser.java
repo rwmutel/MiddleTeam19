@@ -21,7 +21,10 @@ public class HomepageParser implements DataParser {
     }
     @Override
     public Optional<String> getName() {
-        return Optional.of(page.title());
+        if (connected) {
+            return Optional.of(page.title());
+        }
+        return Optional.empty();
     }
 
     @Override
