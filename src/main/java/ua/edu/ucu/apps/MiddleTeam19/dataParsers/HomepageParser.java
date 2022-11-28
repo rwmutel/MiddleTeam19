@@ -14,6 +14,9 @@ public class HomepageParser implements DataParser {
     private boolean connected;
     public HomepageParser(String domain) {
         try {
+            if (!domain.startsWith("https://")) {
+                domain = "https://" + domain;
+            }
             this.domain = domain;
             page = Jsoup.connect(domain).get();
             connected = true;
