@@ -12,6 +12,7 @@ public class ParsersWrapper implements DataParser {
         }
         parsers.add(new HomepageParser(domain));
         parsers.add(new BrandfetchParser(domain));
+        parsers.add(new BingParser(domain));
     }
     @Override
     public Optional<String> getName() {
