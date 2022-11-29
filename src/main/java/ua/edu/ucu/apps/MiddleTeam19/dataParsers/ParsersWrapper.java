@@ -10,9 +10,11 @@ public class ParsersWrapper implements DataParser {
         if (domain.startsWith("http")) {
             domain = domain.replace("https://", "");
         }
-        parsers.add(new BingParser(domain));
+        DataParser bing = new BingParser(domain);
+        parsers.add(bing);
         parsers.add(new HomepageParser(domain));
         parsers.add(new BrandfetchParser(domain));
+        parsers.add(new LocationParser(bing.getName().get()));
     }
     @Override
     public Optional<String> getName() {
@@ -83,6 +85,13 @@ public class ParsersWrapper implements DataParser {
 
     @Override
     public Optional<String> getAddress() {
+        Optional<String> address;
+        for (DataParser parser: parsers) {
+            address = parser.getAddress();
+            if (address.isPresent()) {
+                return address;
+            }
+        }
         return Optional.empty();
     }
 }
