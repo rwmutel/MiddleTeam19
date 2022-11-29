@@ -10,9 +10,9 @@ public class ParsersWrapper implements DataParser {
         if (domain.startsWith("http")) {
             domain = domain.replace("https://", "");
         }
+        parsers.add(new BingParser(domain));
         parsers.add(new HomepageParser(domain));
         parsers.add(new BrandfetchParser(domain));
-        parsers.add(new BingParser(domain));
     }
     @Override
     public Optional<String> getName() {
