@@ -29,7 +29,7 @@ public class BrandfetchParser implements DataParser {
         Request request = new Request.Builder()
                 .url("https://api.brandfetch.io/v2/brands/" + domain)
                 .addHeader("Authorization",
-                        "Bearer KNeExAkwfW4/Ek203LrzvkjwSSAympp3Nac6/GVAHwA=")
+                        "Bearer")
                 .build();
         try {
             response = client.newCall(request).execute();
