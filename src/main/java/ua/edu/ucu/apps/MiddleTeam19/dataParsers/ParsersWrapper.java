@@ -7,6 +7,9 @@ import java.util.Optional;
 public class ParsersWrapper implements DataParser {
     List<DataParser> parsers = new ArrayList<>();
     public ParsersWrapper(String domain) {
+        if (domain.startsWith("http")) {
+            domain = domain.replace("https://", "");
+        }
         parsers.add(new HomepageParser(domain));
         parsers.add(new BrandfetchParser(domain));
     }
@@ -24,6 +27,13 @@ public class ParsersWrapper implements DataParser {
 
     @Override
     public Optional<String> getTwitterURL() {
+        Optional<String> twitterURL;
+        for (DataParser parser: parsers) {
+            twitterURL = parser.getTwitterURL();
+            if (twitterURL.isPresent()) {
+                return twitterURL;
+            }
+        }
         return Optional.empty();
     }
 
@@ -41,6 +51,14 @@ public class ParsersWrapper implements DataParser {
 
     @Override
     public Optional<List<String>> getCompanyLogos() {
+        List<String> logos = new ArrayList<>();
+        for (DataParser parser: parsers) {
+            Optional<List<String>> newLogos = parser.getCompanyLogos();
+            newLogos.ifPresent(logos::addAll);
+        }
+        if (logos.size() > 0) {
+            return Optional.of(logos);
+        }
         return Optional.empty();
     }
 

@@ -36,6 +36,8 @@ public class Company {
         parsed.setDomain(domain);
         wp.getName().ifPresent(parsed::setName);
         wp.getFacebookURL().ifPresent(parsed::setFacebookURL);
+        wp.getTwitterURL().ifPresent(parsed::setTwitterURL);
+        wp.getCompanyLogos().ifPresent(parsed::setCompanyLogos);
         wp.getCompanyIcons().ifPresent(parsed::setCompanyIcons);
         return parsed;
     }

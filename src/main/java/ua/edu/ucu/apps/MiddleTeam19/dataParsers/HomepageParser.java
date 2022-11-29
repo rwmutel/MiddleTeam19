@@ -2,6 +2,7 @@ package ua.edu.ucu.apps.MiddleTeam19.dataParsers;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -36,6 +37,15 @@ public class HomepageParser implements DataParser {
 
     @Override
     public Optional<String> getTwitterURL() {
+        if (connected) {
+            Elements el = page.getElementsByAttributeValueMatching(
+                    "href",
+                    "https:\\/\\/twitter\\.com.*"
+            );
+            if (el.size() > 0){
+                return Optional.of(el.last().attr("href"));
+            }
+        }
         return Optional.empty();
     }
 
@@ -55,6 +65,13 @@ public class HomepageParser implements DataParser {
 
     @Override
     public Optional<List<String>> getCompanyLogos() {
+        if (connected) {
+            Elements el = page.getElementsByAttributeValueMatching("src", ".*logo.*svg");
+            if (el.size() > 0) {
+                String logo = el.attr("src");
+                return Optional.of(List.of(logo));
+            }
+        }
         return Optional.empty();
     }
 

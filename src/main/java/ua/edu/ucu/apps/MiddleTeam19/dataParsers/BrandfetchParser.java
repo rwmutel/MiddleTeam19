@@ -5,10 +5,14 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class BrandfetchParser implements DataParser {
@@ -25,7 +29,7 @@ public class BrandfetchParser implements DataParser {
         Request request = new Request.Builder()
                 .url("https://api.brandfetch.io/v2/brands/" + domain)
                 .addHeader("Authorization",
-                        "Bearer " + dotenv.get("BRANDFETCH_BEARER"))
+                        "Bearer KNeExAkwfW4/Ek203LrzvkjwSSAympp3Nac6/GVAHwA=")
                 .build();
         try {
             response = client.newCall(request).execute();
@@ -41,6 +45,23 @@ public class BrandfetchParser implements DataParser {
     }
     @Override
     public Optional<String> getName() {
+        if (!jo.isNull("name")) {
+            return Optional.of(jo.get("name").toString());
+        }
+        else {
+            String facebookURL;
+            Optional<String> facebook = getFacebookURL();
+            if (facebook.isPresent()) {
+                facebookURL = facebook.get();
+                try {
+                    Document facebookPage = Jsoup.connect(facebookURL).get();
+                    String nameFromFacebook = facebookPage.title().replace(" | Facebook", "");
+                    return Optional.of(nameFromFacebook);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
         return Optional.empty();
     }
 
@@ -51,6 +72,13 @@ public class BrandfetchParser implements DataParser {
 
     @Override
     public Optional<String> getFacebookURL() {
+        JSONArray links = (JSONArray) jo.get("links");
+        for (int i = 0; i < links.length(); i++) {
+            if (Objects.equals(links.getJSONObject(i).getString("name"), "facebook")) {
+                String url = links.getJSONObject(i).getString("url");
+                return Optional.of(url);
+            }
+        }
         return Optional.empty();
     }
 
