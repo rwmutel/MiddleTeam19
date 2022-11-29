@@ -8,11 +8,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class BingParser implements DataParser {
     JSONObject jo;
-    boolean connected;
     public BingParser(String domain) {
         Dotenv dotenv = Dotenv.configure().load();
         String endpoint = "https://api.bing.microsoft.com/v7.0/search";
@@ -20,7 +20,7 @@ public class BingParser implements DataParser {
         Response response;
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         Request request = new Request.Builder()
-                .url(endpoint + "?" + "q=" + query + "&" + "mkt=en-GB" + "&" + "count=1")
+                .url(endpoint + "?" + "q=" + query + "&" + "count=1")
                 .addHeader("Ocp-Apim-Subscription-Key", dotenv.get("BING_KEY_1"))
                 .build();
         try {
@@ -28,16 +28,14 @@ public class BingParser implements DataParser {
             jo = new JSONObject(response.body().string());
             System.out.println(jo.toString(2));
             response.close();
-            connected = true;
         }
         catch (IOException e) {
             System.out.println(e.getMessage());
-            connected = false;
         }
     }
     @Override
     public Optional<String> getName() {
-        if (connected) {
+        if (!Objects.isNull(jo)) {
             String name = jo
                     .getJSONObject("webPages")
                     .getJSONArray("value")

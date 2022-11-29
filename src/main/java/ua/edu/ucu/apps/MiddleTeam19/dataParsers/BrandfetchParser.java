@@ -7,8 +7,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,7 +18,6 @@ public class BrandfetchParser implements DataParser {
     // more on JSONObject: https://www.baeldung.com/java-org-json
     // more on OkHTTP3: https://www.baeldung.com/guide-to-okhttp
     private JSONObject jo;
-    private boolean connected;
     public BrandfetchParser(String domain) {
         Dotenv dotenv = Dotenv.configure().load();
         Response response;
@@ -36,16 +33,14 @@ public class BrandfetchParser implements DataParser {
             jo = new JSONObject(response.body().string());
             System.out.println(jo.toString(2));
             response.close();
-            connected = true;
         }
         catch (IOException e) {
-            connected = false;
             System.out.println(e.getMessage());
         }
     }
     @Override
     public Optional<String> getName() {
-        if (connected) {
+        if (!Objects.isNull(jo)) {
             if (!jo.isNull("name")) {
                 return Optional.of(jo.get("name").toString());
             }
@@ -60,7 +55,7 @@ public class BrandfetchParser implements DataParser {
 
     @Override
     public Optional<String> getFacebookURL() {
-        if (connected) {
+        if (!Objects.isNull(jo)) {
             JSONArray links = (JSONArray) jo.get("links");
             for (int i = 0; i < links.length(); i++) {
                 if (Objects.equals(links.getJSONObject(i).getString("name"), "facebook")) {

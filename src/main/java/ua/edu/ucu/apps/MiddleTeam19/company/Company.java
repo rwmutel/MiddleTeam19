@@ -8,7 +8,6 @@ import lombok.ToString;
 import ua.edu.ucu.apps.MiddleTeam19.dataParsers.ParsersWrapper;
 
 import java.util.List;
-import java.util.Optional;
 
 @Setter
 @Getter
@@ -39,6 +38,7 @@ public class Company {
         wp.getTwitterURL().ifPresent(parsed::setTwitterURL);
         wp.getCompanyLogos().ifPresent(parsed::setCompanyLogos);
         wp.getCompanyIcons().ifPresent(parsed::setCompanyIcons);
+        wp.getAddress().ifPresent(parsed::setAddress);
         return parsed;
     }
 }
