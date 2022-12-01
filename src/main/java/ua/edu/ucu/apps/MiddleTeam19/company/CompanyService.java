@@ -2,6 +2,7 @@ package ua.edu.ucu.apps.MiddleTeam19.company;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.edu.ucu.apps.MiddleTeam19.exceptions.CompanyNotFoundError;
 
 import java.io.IOException;
 import java.util.*;
@@ -30,9 +31,14 @@ public class CompanyService {
         return this.companyRepository.findAll();
     }
 
-    public Company updateCompany(Map<String, String> infoToUpdate) {
-        List<Company> companiesFromDb = this.companyRepository.findByDomain(infoToUpdate.get("domain"));
-        Company companyToUpdate = companiesFromDb.get(0);
+    public Company updateCompany(Map<String, String> infoToUpdate) throws CompanyNotFoundError {
+        Company companyToUpdate;
+        try{
+            List<Company> companiesFromDb = this.companyRepository.findByDomain(infoToUpdate.get("domain"));
+            companyToUpdate = companiesFromDb.get(0);
+        } catch (Exception e) {
+            throw new CompanyNotFoundError("Company domain not found in the DB");
+        }
         if (infoToUpdate.containsKey("address")) {
             companyToUpdate.setAddress(infoToUpdate.get("address"));
         }
