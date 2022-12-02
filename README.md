@@ -2,7 +2,7 @@
 
 ## Usage Example
 
-**!!!IMPORTANT: base url is either https://middleteam19.lm.r.appspot.com (hosted on gcloud) or http://188.166.18.162:8080 (hosted on DigitalOcean)**
+**!!!IMPORTANT: base url is http://188.166.18.162:8080 (hosted on DigitalOcean)**
 
 + **Get data about the company by domain:**
 ![image](https://user-images.githubusercontent.com/92577137/205344254-890b833c-7ec8-4717-817b-69e8064c0890.png)
