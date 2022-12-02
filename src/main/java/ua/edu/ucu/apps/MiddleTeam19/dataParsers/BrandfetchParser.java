@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -50,6 +51,15 @@ public class BrandfetchParser implements DataParser {
 
     @Override
     public Optional<String> getTwitterURL() {
+        if (!Objects.isNull(jo)) {
+            JSONArray links = (JSONArray) jo.get("links");
+            for (int i = 0; i < links.length(); i++) {
+                if (Objects.equals(links.getJSONObject(i).getString("name"), "twitter")) {
+                    String url = links.getJSONObject(i).getString("url");
+                    return Optional.of(url);
+                }
+            }
+        }
         return Optional.empty();
     }
 
@@ -69,11 +79,33 @@ public class BrandfetchParser implements DataParser {
 
     @Override
     public Optional<List<String>> getCompanyLogos() {
+        if (!Objects.isNull(jo)) {
+            JSONArray logos = (JSONArray) jo.get("logos");
+            List<String> logosArray = new ArrayList<>();
+            for (int i = 0; i < logos.length(); i++) {
+                if (Objects.equals(logos.getJSONObject(i).getString("type"), "logo")) {
+                    JSONArray formats = (JSONArray) logos.getJSONObject(i).get("formats");
+                    logosArray.add(formats.getJSONObject(0).getString("src"));
+                }
+            }
+            return Optional.of(logosArray);
+        }
         return Optional.empty();
     }
 
     @Override
     public Optional<List<String>> getCompanyIcons() {
+        if (!Objects.isNull(jo)) {
+            JSONArray logos = (JSONArray) jo.get("logos");
+            List<String> iconArray = new ArrayList<>();
+            for (int i = 0; i < logos.length(); i++) {
+                if (Objects.equals(logos.getJSONObject(i).getString("type"), "icon")) {
+                    JSONArray formats = (JSONArray) logos.getJSONObject(i).get("formats");
+                    iconArray.add(formats.getJSONObject(0).getString("src"));
+                }
+            }
+            return Optional.of(iconArray);
+        }
         return Optional.empty();
     }
 
